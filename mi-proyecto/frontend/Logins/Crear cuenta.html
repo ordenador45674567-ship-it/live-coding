@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Tienda - Registro</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- TU ENLACE CSS DE BOOTSTRAP (Versión 5.3.0) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .register-container {
+            max-width: 450px;
+            margin: 60px auto;
+        }
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- BARRA SUPERIOR -->
+    <div class="container mt-4 text-center">
+        <a href="../tienda/Tienda.html" class="btn btn-outline-secondary btn-sm shadow-sm">Ver tienda sin iniciar sesión</a>
+    </div>
+
+    <!-- FORMULARIO DE REGISTRO -->
+    <div class="container">
+        <div class="register-container">
+            <div class="card shadow p-4">
+                <h3 class="text-center fw-bold mb-4">Crear cuenta</h3>
+                
+                <form id="form-registro">
+                    <!-- USUARIO -->
+                    <div class="mb-3">
+                        <label for="user-cre" class="form-label fw-bold small text-muted text-uppercase">Crear Usuario</label>
+                        <input type="text" class="form-control" id="user-cre" required minlength="2" maxlength="15" placeholder="Usuario">
+                    </div>
+
+                    <!-- CONTRASEÑA -->
+                    <div class="mb-3">
+                        <label for="contr-cre" class="form-label fw-bold small text-muted text-uppercase">Crear Contraseña</label>
+                        <input type="password" class="form-control" id="contr-cre" required minlength="8" placeholder="Contraseña">
+                    </div>
+
+                    <!-- CONFIRMAR CONTRASEÑA -->
+                    <div class="mb-4">
+                        <label for="contr-conf" class="form-label fw-bold small text-muted text-uppercase">Confirmar contraseña</label>
+                        <input type="password" class="form-control" id="contr-conf" required placeholder="Repite tu contraseña">
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-dark btn-lg fw-bold">Registrarse</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="small text-muted">¿Ya tienes cuenta? <a href="Login.html" class="text-dark fw-bold text-decoration-none">Inicia sesión aquí</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TU ENLACE JS DE BOOTSTRAP (Versión 5.3.8) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <!-- LÓGICA DE REGISTRO -->
+    <script>
+        document.getElementById('form-registro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('user-cre').value;
+            const password = document.getElementById('contr-cre').value;
+            const confirm = document.getElementById('contr-conf').value;
+
+            // Validación de seguridad básica en cliente
+            if (password !== confirm) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+
+            try {
+                const res = await fetch('http://localhost:5000/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (res.ok) {
+                    alert("¡Cuenta creada con éxito! Ahora puedes iniciar sesión.");
+                    window.location.href = "Login.html";
+                } else {
+                    const data = await res.json();
+                    alert("Error: " + (data.error || "No se pudo crear la cuenta"));
+                }
+            } catch (err) {
+                alert("Error: No se pudo conectar con el servidor. ¿Está encendido?");
+            }
+        });
+    </script>
+</body>
+</html>

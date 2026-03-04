@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Tienda - Acceso</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- TU ENLACE CSS DE BOOTSTRAP (Versión 5.3.0) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 80px auto;
+        }
+        .card {
+            border-radius: 12px;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- OPCIONES SUPERIORES -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-center gap-3">
+            <a href="../tienda/Tienda.html" class="btn btn-outline-secondary btn-sm shadow-sm">Ver tienda sin iniciar sesión</a>
+        </div>
+    </div>
+
+    <!-- FORMULARIO DE INICIO DE SESIÓN -->
+    <div class="container">
+        <div class="login-container">
+            <div class="card shadow p-4">
+                <h3 class="text-center fw-bold mb-4">TIENDA</h3>
+                <p class="text-center text-muted mb-4 small">Inicia sesión para gestionar tus productos</p>
+                
+                <form id="form-login">
+                    <div class="mb-3">
+                        <label for="user-log" class="form-label fw-bold small text-muted text-uppercase">USUARIO</label>
+                        <input type="text" class="form-control form-control-lg" id="user-log" placeholder="Tu usuario" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="contr-log" class="form-label fw-bold small text-muted text-uppercase">CONTRASEÑA</label>
+                        <input type="password" class="form-control form-control-lg" id="contr-log" placeholder="••••••••" required>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark btn-lg fw-bold">Entrar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="small text-muted">¿No tienes cuenta? <a href="Crear cuenta.html" class="text-dark fw-bold text-decoration-none">Regístrate aquí</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TU ENLACE JS DE BOOTSTRAP (Versión 5.3.8) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+    <!-- LÓGICA DE LOGIN -->
+    <script>
+        document.getElementById('form-login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const usernameInput = document.getElementById('user-log').value;
+            const passwordInput = document.getElementById('contr-log').value;
+    
+            try {
+                const res = await fetch('http://localhost:5000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: usernameInput, password: passwordInput })
+                });
+    
+                const data = await res.json();
+    
+                if (res.ok) {
+                    // AQUÍ ESTÁ EL ARREGLO PARA PEPE Y PEPA:
+                    // Guardamos los datos que devuelve el servidor (data.user_id y data.username)
+                    localStorage.setItem('user_id', data.user_id);
+                    localStorage.setItem('username', data.username);
+                    
+                    alert("¡Bienvenido, " + data.username + "!");
+                    window.location.href = "../tienda/Tienda.html";
+                } else {
+                    alert("Error: " + (data.error || "Credenciales incorrectas"));
+                }
+            } catch (err) {
+                console.error("Error de red:", err);
+                alert("Error: El servidor no responde. Comprueba que 'python app.py' está corriendo.");
+            }
+        });
+    </script>
+</body>
+</html>
