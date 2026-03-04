@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # SERVICIO DE BACKEND (API)
+  api:
+    build: ./backend
+    container_name: tienda_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - FLASK_ENV=development
+
+  # SERVICIO DE FRONTEND (Servidor Web)
+  web:
+    image: nginx:alpine
+    container_name: tienda_frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./fronted:/usr/share/nginx/html
+    depends_on:
+      - api
