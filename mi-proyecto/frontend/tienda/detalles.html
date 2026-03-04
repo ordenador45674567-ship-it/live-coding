@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Detalles del Producto - Mi Tienda</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- TU ENLACE CSS DE BOOTSTRAP (Versión 5.3.0) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Mantiene las imágenes uniformes sin deformarlas */
+        .img-detalle {
+            max-height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+            background-color: #f8f9fa;
+        }
+        /* Estilo para la tarjeta de información */
+        .card-info {
+            border: none;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="Tienda.html">TIENDA</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="Tienda.html">Inicio</a>
+                <a class="nav-link" href="../logins/Login.html">Mi Perfil</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container mt-5 pb-5">
+        <!-- El JS de productos.js inyectará aquí el contenido -->
+        <div id="detalle-producto" class="row g-5">
+            <div class="text-center py-5">
+                <div class="spinner-border text-dark" role="status"></div>
+                <p class="mt-2">Cargando información del mueble...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TU ENLACE JS DE BOOTSTRAP (Versión 5.3.8) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+
+    <!-- CARGA DE TU ARCHIVO JS EXTERNO (productos.js) -->
+    <script src="productos.js"></script>
+
+    <script>
+        // Función para el botón de compra grande
+        function realizarCompra(nombreProducto, vendedor) {
+            const usuarioLogueado = localStorage.getItem('user_id');
+
+            if (!usuarioLogueado) {
+                alert("¡Atención! Para comprar este mueble primero debes iniciar sesión.");
+                window.location.href = "../logins/Login.html";
+                return;
+            }
+
+            alert(`¡Solicitud enviada con éxito!\n\nHas pedido comprar: ${nombreProducto}.\nEl vendedor (${vendedor}) se pondrá en contacto contigo pronto.`);
+        }
+    </script>
+</body>
+</html>
